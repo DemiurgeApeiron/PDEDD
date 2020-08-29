@@ -1,0 +1,14 @@
+int fibonacci(int n){
+    if(n<0){
+        throw "iligal number";
+    }
+    if(n<2){
+        return n; -> c1
+    }
+
+    return fibonacci(n-1) + fibonacci(n-2); -> c2 + T(n-1) + T(n-2)
+}
+
+T(n) = c2 + (c2 + T(n-2) + (c2 + T(n-3))
+T(n) = 2*c2*(n-1) + c1
+T(n) = 2*c2*(n-c2) + c1
