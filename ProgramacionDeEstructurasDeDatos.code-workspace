@@ -10,7 +10,8 @@
 			"iostream": "cpp",
 			"thread": "cpp",
 			"ostream": "cpp",
-			"chrono": "cpp"
+			"chrono": "cpp",
+			"vector": "cpp"
 		}
 	}
 }

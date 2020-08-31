@@ -25,13 +25,15 @@ vector<int> ordenIda(vector<int> lista, int iActual, int iFuturo, int vActual, i
 
 }
 vector<int> ordenRegreso(vector<int> lista, int iActual, int iFuturo, int vActual, int vFuturo, vector<int> memorisacion){
+    int x = 0;
     if(iActual*-1 == lista.size()){
         cout<< "h1" <<endl;
         memorisacion.push_back(lista[0]);
         for(int i =0; i<memorisacion.size();i++){
         cout << memorisacion[i] <<endl;
         }
-        return memorisacion;
+        x = 1;
+        
     }
     else{
         cout<< "h2" <<endl;
@@ -44,6 +46,12 @@ vector<int> ordenRegreso(vector<int> lista, int iActual, int iFuturo, int vActua
         }
         ordenRegreso(lista,iFuturo,iFuturo-1, vActual, lista[iFuturo-1], memorisacion);
     }
+    if(x == 1){
+        cout << "pppp" <<endl; 
+        return memorisacion;
+    }
+    return memorisacion;
+    
 }
 vector<int> memri(){
     vector<int> mem{1,2,3,4};
@@ -79,6 +87,7 @@ int main(){
     //mem = memri();
 
     for(int i =0; i<mem.size();i++){
+        cout << "h10" << endl;
         cout << mem[i] <<endl;
     }
     
