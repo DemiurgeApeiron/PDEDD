@@ -11,7 +11,11 @@
 			"thread": "cpp",
 			"ostream": "cpp",
 			"chrono": "cpp",
-			"vector": "cpp"
+			"vector": "cpp",
+			"array": "cpp",
+			"string_view": "cpp",
+			"initializer_list": "cpp",
+			"utility": "cpp"
 		}
 	}
 }
