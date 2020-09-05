@@ -7,14 +7,14 @@ javier alejandro martinez noe
 #include <vector>
 #include "Sorter.hpp"
 using namespace std;
-#pragma once;
+#pragma once
 
 template <class T>
 class BubbleSort : public Sorter<T>
 {
 private:
-    vector<T> sortForwards(vector<T> list, int iActual, int iFuture, T vActual, T vFuture, bool &noSwap);
-    vector<T> sortBack(vector<T> list, int iActual, int iFuture, T vActual, T vFuture, bool &noSwap);
+    vector<T> sortForwards(vector<T> &list, int iActual, int iFuture, T vActual, T vFuture, bool &noSwap);
+    vector<T> sortBack(vector<T> &list, int iActual, int iFuture, T vActual, T vFuture, bool &noSwap);
 public:
     BubbleSort(vector<T> &_lista);
     ~BubbleSort();
@@ -30,36 +30,39 @@ BubbleSort<T>::~BubbleSort()
 }
 
 template <class T>
-vector<T> BubbleSort<T>:: sortBack(vector<T> list, int iActual, int iFuture, T vActual, T vFuture, bool &noSwap){
+vector<T> BubbleSort<T>:: sortBack(vector<T> &list, int iActual, int iFuture, T vActual, T vFuture, bool &noSwap){
     if(iActual*-1 == list.size()){
-        return this->lista;
+        return list;
     }
     else{
         if(vActual < vFuture){
-            T temp = this->lista[iActual];
-            this->lista[iActual] = this->lista[iFuture];
-            this->lista[iFuture] = temp;
+            T temp = list[iActual];
+            list[iActual] = list[iFuture];
+            list[iFuture] = temp;
             noSwap = false;
         }
         else{
             vActual = vFuture;
         }
+
         sortBack(list,iFuture,iFuture-1, vActual, list[iFuture-1], noSwap);
+
     }
-    return this->lista;
+
+    return list;
 }
 
 template <class T>
-vector<T> BubbleSort<T>:: sortForwards(vector<T> list, int iActual, int iFuture, T vActual, T vFuture, bool &noSwap){
+vector<T> BubbleSort<T>:: sortForwards(vector<T> &list, int iActual, int iFuture, T vActual, T vFuture, bool &noSwap){
     if(iActual == list.size()-1){
-        return this->lista;
+        return list;
         
     }
     else{
         if(vActual > vFuture){
-            T temp = this->lista[iActual];
-            this->lista[iActual] = this->lista[iFuture];
-            this->lista[iFuture] = temp;
+            T temp = list[iActual];
+            list[iActual] = list[iFuture];
+            list[iFuture] = temp;
             noSwap = false;
         }
         else{
@@ -67,21 +70,25 @@ vector<T> BubbleSort<T>:: sortForwards(vector<T> list, int iActual, int iFuture,
         }
         sortForwards(list,iFuture,iFuture+1, vActual, list[iFuture+1],noSwap);
     }
-    return this->lista;
+    return list;
 }
 
 template <class T>
 vector<T> BubbleSort<T>::sort(){
-    for(size_t i =0; i < this->lista.size(); i++){
+    vector<T> list = this->lista;
+    for(size_t i =0; i < list.size(); i++){
+
         bool noSwap = true;
-        this->lista = sortBack(this-> lista, -1, -2, this-> lista[-1], this-> lista[-2], noSwap);
-        this->lista  = sortForwards(this-> lista, 0, 1, this->lista[0], this->lista[1], noSwap);
+        /*cout << "gg0" <<endl;
+        list = sortBack(list, -1, -2, list[list.size()-1], list[list.size()-2], noSwap);
+        cout << "gg" <<endl;*/
+        list  = sortForwards(list, 0, 1, list[0], list[1], noSwap);
         if(noSwap){
             break;
         }
     }
     
-    return this->lista ;
+    return list ;
 
 }
 

@@ -6,6 +6,8 @@
 #include <algorithm>
 #include "SelectionSort.hpp"
 #include "BubbleSort.hpp"
+#include "IncertionSort.hpp"
+#include "MergeSort.hpp"
 using namespace std;
 template<class T>
 void printVector(vector<T> &lista){
@@ -20,11 +22,15 @@ int main(){
     int listSize = 10;
     vector<int> listaNueva1;
     vector<int> listaNueva2;
+    vector<int> listaNueva3;
+    vector<int> listaNueva4;
     srand(time(NULL));
     for(size_t i = 0; i < listSize; i++){
         int numRand = (int)rand();
         listaNueva1.push_back(numRand % (listSize));
         listaNueva2.push_back(numRand % (listSize));
+        listaNueva3.push_back(numRand % (listSize));
+        listaNueva4.push_back(numRand % (listSize));
     }
     printVector(listaNueva1);
     cout <<endl;
@@ -35,14 +41,36 @@ int main(){
     STOP_TIMING(t1);
     SHOW_TIMING(t1, "tiempo de procesado con Selection Sort");
     printVector(Ovector);
-    cout <<endl;    
+    cout <<endl;  
+
     BubbleSort<int> bubblesort(listaNueva2);
     DECLARE_TIMING(t2);
     START_TIMING(t2);
     vector<int> Ovector2 = bubblesort.sort();
     STOP_TIMING(t2);
     SHOW_TIMING(t2, "tiempo de procesado con Bubble Sort");
-    printVector(Ovector2); 
+    printVector(Ovector2);
+    cout <<endl; 
+
+    IncertionSort<int> incertionsort(listaNueva3);
+    DECLARE_TIMING(t3);
+    START_TIMING(t3);
+    vector<int> Ovector3 = incertionsort.sort();
+    STOP_TIMING(t3);
+    SHOW_TIMING(t3, "tiempo de procesado con Incertion Sort");
+    printVector(Ovector3);
+    cout <<endl; 
+
+    MergeSort<int> mergesort(listaNueva4);
+    DECLARE_TIMING(t4);
+    START_TIMING(t4);
+    vector<int> Ovector4 = mergesort.sort();
+    STOP_TIMING(t4);
+    SHOW_TIMING(t4, "tiempo de procesado con Merge Sort");
+    printVector(Ovector4);
+    cout <<endl; 
+
+    
 
 
 
