@@ -15,6 +15,7 @@ class BubbleSort : public Sorter<T>
 private:
     vector<T> sortForwards(vector<T> &list, int iActual, int iFuture, T vActual, T vFuture, bool &noSwap);
     vector<T> sortBack(vector<T> &list, int iActual, int iFuture, T vActual, T vFuture, bool &noSwap);
+    vector<T> sortIterator(vector<T> &list);
 public:
     BubbleSort(vector<T> &_lista);
     ~BubbleSort();
@@ -72,22 +73,41 @@ vector<T> BubbleSort<T>:: sortForwards(vector<T> &list, int iActual, int iFuture
     }
     return list;
 }
+template <class T>
+vector<T> BubbleSort<T>:: sortIterator(vector<T> &list){
+    for(size_t i = 0; i < list.size(); i++){
+        bool noSwap = true;
+        for(size_t j = 0; j < list.size()-1; j++){
+            if(list[j] > list[j+1]){
+                T temp = list[j];
+                list[j] = list[j+1];
+                list[j+1] = temp;
+                noSwap = false;
+            }
+        }
+        if(noSwap){
+            break;
+        }
+    }
+    return list;
+}
 
 template <class T>
 vector<T> BubbleSort<T>::sort(){
     vector<T> list = this->lista;
-    for(size_t i =0; i < list.size(); i++){
+    list = sortIterator(list);
+
+    
+    //este funciona es recursivo y segun yo tiene la misma complejidad, pero por alguna razon es muchooooo mas lenta
+    /*for(size_t i =0; i < list.size(); i++){
 
         bool noSwap = true;
-        /*cout << "gg0" <<endl;
-        list = sortBack(list, -1, -2, list[list.size()-1], list[list.size()-2], noSwap);
-        cout << "gg" <<endl;*/
         list  = sortForwards(list, 0, 1, list[0], list[1], noSwap);
         if(noSwap){
             break;
         }
     }
-    
+    */
     return list ;
 
 }
