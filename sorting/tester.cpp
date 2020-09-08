@@ -8,6 +8,7 @@
 #include "BubbleSort.hpp"
 #include "IncertionSort.hpp"
 #include "MergeSort.hpp"
+#include "QuickSort.hpp"
 using namespace std;
 template<class T>
 void printVector(vector<T> &lista){
@@ -19,12 +20,13 @@ void printVector(vector<T> &lista){
 
 
 int main(){
-    int listSize = 100000;
+    int listSize = 10;
     vector<int> listaTest;
     vector<int> listaNueva1;
     vector<int> listaNueva2;
     vector<int> listaNueva3;
     vector<int> listaNueva4;
+    vector<int> listaNueva5;
     srand(time(NULL));
     for(size_t i = 0; i < listSize; i++){
         int numRand = (int)rand();
@@ -33,6 +35,7 @@ int main(){
         listaNueva2.push_back(numRand % (listSize));
         listaNueva3.push_back(numRand % (listSize));
         listaNueva4.push_back(numRand % (listSize));
+        listaNueva5.push_back(numRand % (listSize));
     }
     //printVector(listaNueva1);
     cout << "ordenada std"<<endl;
@@ -41,8 +44,9 @@ int main(){
     sort(listaTest.begin(), listaTest.end()); 
     STOP_TIMING(t0);
     SHOW_TIMING(t0, "tiempo de procesado con std Sort");
-    //printVector(listaTest);
+    printVector(listaTest);
     cout <<endl;
+
     SelectionSort<int> selectionsort(listaNueva1);
     DECLARE_TIMING(t1);
     START_TIMING(t1);
@@ -76,7 +80,16 @@ int main(){
     vector<int> Ovector4 = mergesort.sort();
     STOP_TIMING(t4);
     SHOW_TIMING(t4, "tiempo de procesado con Merge Sort");
-    //printVector(Ovector4);
+    printVector(Ovector4);
+    cout <<endl; 
+
+    QuickSort<int> quicksort(listaNueva5);
+    DECLARE_TIMING(t5);
+    START_TIMING(t5);
+    vector<int> Ovector5 = quicksort.sort();
+    STOP_TIMING(t5);
+    SHOW_TIMING(t5, "tiempo de procesado con Quick Sort");
+    printVector(Ovector5);
     cout <<endl; 
 
     

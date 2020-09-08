@@ -39,6 +39,7 @@ T program(T i){
     STOP_TIMING(t4);
     //busquedas.displayLista();
     SHOW_TIMING(t4, "tiempo de procesado");
+    cout<<endl;
 }
 
 int main(){
