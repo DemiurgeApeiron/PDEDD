@@ -2,6 +2,8 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <stdio.h> 
+#include <assert.h> 
 
 using namespace std; 
   
@@ -27,7 +29,10 @@ int main()
     string localIp = valores[0] + "." + valores[1] + "." + valores[2];
     string userIP = valores[valores.size()-1];
 
+  
     cout << IP << endl;
     cout << localIp << endl;
     cout << userIP << endl;
+    cout <<  << endl;
+
 } 

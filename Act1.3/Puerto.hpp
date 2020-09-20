@@ -1,10 +1,11 @@
 #include <iostream>
 #include <vector>
+#include "DataBase.hpp"
 using namespace std;
-#pragma onece;
+#pragma once
 
 template <class T>
-class Puerto{
+class Puerto: public DataBase<T>{
 protected:
 
 public:
