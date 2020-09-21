@@ -21,7 +21,7 @@ template <class T>
 HostName<T>::HostName(T &_HostName){
     this-> fullName = _HostName;
     if(fullName == "-"){
-        this->name=fullName;
+        this->name = fullName;
     }
     else{
         vector <T> valores;

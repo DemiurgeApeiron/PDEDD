@@ -10,6 +10,10 @@ void addRegistro(vector<vector<T>> _registros){
     for(size_t i = 0; i < _registros.size();i++){
         program.addRegister(_registros[i]);
     }
+    cout<<"Espesifica cuantas filas quieres imprimir, 0 = All: "<<endl;
+    cin >> resp;
+    program.Display(resp);
+    cout<< "-----------"<<endl;
     program.sortByTime();
     cout<<"Espesifica cuantas filas quieres imprimir, 0 = All: "<<endl;
     cin >> resp;

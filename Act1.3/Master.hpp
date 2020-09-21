@@ -12,21 +12,27 @@ template <class T>
 class Master{
 protected:
     vector<vector <DataBase<T>*> > lista;
-    bool dayCond(T &a, T &b);
-    bool horaCond(T &a, T &b);
-    bool minCond(T &a, T &b);
+    bool dayCond(vector<DataBase<T>*> &a, vector<DataBase<T>*> &b);
+    bool horaCond(vector<DataBase<T>*> &a, vector<DataBase<T>*> &b);
 
 public:
     Master()=default;
     ~Master();
     void addRegister(std::vector<T> &_lista);
-    vector<T> sortByTime();
-    vector<T> sort(bool (*compare)(T &a, T B));
-    int numeroDeRegistros(){return(lista.size());}
+    vector<vector<DataBase<T>*>>  sortByTime();
+    int numeroDeRegistros(){return lista.size();}
     void Display(int resp);
 
 };
 
+template <class T>
+Master<T>::~Master(){
+    for(size_t i = 0; i < lista.size();i++){
+        for(size_t j = 0; j < lista.size();j++){
+            delete(lista[i][j]);
+        }
+    }
+}
 
 template <class T>
 void Master<T>::addRegister(vector<T> &_lista){
@@ -39,38 +45,19 @@ void Master<T>::addRegister(vector<T> &_lista){
     v.push_back(new IP(_lista[5]));
     v.push_back(new Puerto(_lista[6]));
     v.push_back(new HostName(_lista[7]));
+
     lista.push_back(v);
-}
-template <class T>
-Master<T>::~Master(){
-    for(size_t i = 0; i < lista.size();i++){
-        for(size_t j = 0; j < lista.size();j++){
-            delete(lista[i][j]);
-        }
-    }
+    
 }
 
 template <class T>
-vector<T> Master<T>:: sort(bool (*compare)(T &a, T B)){
+vector<vector<DataBase<T>*>> Master<T>:: sortByTime(){
     for(size_t i = 0; i < lista.size()-1;i++){
         size_t min = i;
+        Fecha<T>* tempFechaA = dynamic_cast<Fecha<T>*>(lista[i][0]);
+        Fecha<T>* tempFechaB = dynamic_cast<Fecha<T>*>(lista[min][0]);
         for(size_t j = i+1; j < lista.size();j++){
-            if((*compare)(lista[j],lista[min])){
-                min = j;
-            }
-        }
-        T temp = lista[i];
-        lista[i] = lista[min];
-        lista[min] = temp;
-    }
-}
-
-template <class T>
-vector<T> Master<T>:: sortByTime(){
-    for(size_t i = 0; i < lista.size()-1;i++){
-        size_t min = i;
-        for(size_t j = i+1; j < lista.size();j++){
-            if((lista[j][0]->getAño() == lista[min][0].getAño()) && (lista[j][0].getMes() == lista[min][0].getMes()) && (lista[j][0].getDia() == lista[min][0].getDia())){
+            if((tempFechaA->getAño() == tempFechaB->getAño()) && (tempFechaA->getMes() == tempFechaB->getMes()) && (tempFechaA->getDia() == tempFechaB->getDia())){
                 if(horaCond(lista[j],lista[min])){
                     min = j;
                 }
@@ -79,21 +66,24 @@ vector<T> Master<T>:: sortByTime(){
                 min = j;
             }
         }
-        T temp = lista[i];
+        vector<DataBase<T>*> temp = lista[i];
         lista[i] = lista[min];
         lista[min] = temp;
     }
+    return(lista);
 }
 
 template <class T>
-bool Master<T>::dayCond(T &a, T &b){
-    if(a[0].getAño() < b[0].getAño()){
+bool Master<T>::dayCond(vector<DataBase<T>*> &a, vector<DataBase<T>*> &b){
+    Fecha<T>* tempFechaA = dynamic_cast<Fecha<T>*>(a[0]);
+    Fecha<T>* tempFechaB = dynamic_cast<Fecha<T>*>(b[0]);
+    if(tempFechaA->getAño() < tempFechaB->getAño()){
         return(true);
     }
-    else if((a[0].getAño() == b[0].getAño()) && (a[0].getMes() < b[0].getMes())){
+    else if((tempFechaA->getAño() == tempFechaB->getAño()) && (tempFechaA->getMes() < tempFechaB->getMes())){
         return(true);
     }
-    else if((a[0].getAño() == b[0].getAño()) && (a[0].getMes() == b[0].getMes()) && (a[0].getDia() < b[0].getDia())){
+    else if((tempFechaA->getAño() == tempFechaB->getAño()) && (tempFechaA->getMes() == tempFechaB->getMes()) && (tempFechaA->getDia() < tempFechaB->getDia())){
         return(true);
     }
     else
@@ -103,14 +93,16 @@ bool Master<T>::dayCond(T &a, T &b){
 }
 
 template <class T>
-bool Master<T>::horaCond(T &a, T &b){
-    if(a[1].getHora() < b[1].getHora()){
+bool Master<T>::horaCond(vector<DataBase<T>*> &a, vector<DataBase<T>*> &b){
+    Hora<T>* tempHoraA = dynamic_cast<Hora<T>*>(a[1]);
+    Hora<T>* tempHoraB = dynamic_cast<Hora<T>*>(b[1]);
+    if(tempHoraA->getHora() < tempHoraB->getHora()){
         return(true);
     }
-    else if((a[1].getHora() == b[1].getHora()) && (a[1].getMin() < b[1].getMin())){
+    else if((tempHoraA->getHora() == tempHoraB->getHora()) && (tempHoraA->getMin() < tempHoraB->getMin())){
         return(true);
     }
-    else if((a[1].getHora() == b[1].getHora()) && (a[1].getMin() == b[1].getMin()) && (a[1].getSec() < b[1].getSec())){
+    else if((tempHoraA->getHora() == tempHoraB->getHora()) && (tempHoraA->getMin() == tempHoraB->getMin()) && (tempHoraA->getSec() < tempHoraB->getSec())){
         return(true);
     }
     else
@@ -138,9 +130,6 @@ void Master<T>::Display(int resp){
         Puerto<T>* tempPuertoD = dynamic_cast<Puerto<T>*>(lista[i][6]);
         HostName<T>* tempHostD = dynamic_cast<HostName<T>*>(lista[i][7]);
         
-        cout<< tempFecha->display() << ", " << tempHora->display() << ", " << tempIP->display() << ", " << "tempPuerto->display()" << ", " << tempHost->display() << ", " << tempIPD->display() << ", " << "tempPuertoD->display()" << ", " << tempHostD->display() <<endl;
-        
+        cout<< tempFecha->display() << ", " << tempHora->display() << ", " << tempIP->display() << ", " << "tempPuerto->display()" << ", " << tempHost->display() << ", " << tempIPD->display() << ", " << "tempPuertoD->display()" << ", " << tempHostD->display() <<endl;   
     }
-    
-
 }

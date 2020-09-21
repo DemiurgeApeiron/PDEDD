@@ -1,1 +1,1 @@
-public DataBase
+<T>

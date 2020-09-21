@@ -24,7 +24,7 @@ public:
 template <class T>
 Hora<T>::Hora(T &_hora){
     this->fullHora = _hora;
-    vector <T> valores;
+    vector<T> valores;
     stringstream check1(_hora); 
     string intermediate; 
     while(getline(check1, intermediate, ':')) 

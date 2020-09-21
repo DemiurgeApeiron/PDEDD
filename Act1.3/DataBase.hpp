@@ -4,11 +4,12 @@ using namespace std;
 template <class T>
 class DataBase
 {
-private:
-
 public:
     DataBase()=default;
-    ~DataBase();
+    virtual ~DataBase();
     virtual T display();
 };
-
+template <class T>
+T DataBase<T>::display(){}
+template <class T>
+DataBase<T>::~DataBase(){}
