@@ -22,8 +22,9 @@ void addRegistro(vector<vector<T>> _registros){
 
 int main(){
     vector<vector<string>> regitros;
-    vector<string> v1 = {"10-8-2020","9:0:24","10.8.134.118","2668","edward.reto.com","144.238.150.63","993","outlook.com"};
-    vector<string> v2 = {"10-8-2020","9:7:43","10.8.134.146","29579","emily.reto.com","174.244.179.200","443","tripadvisor.com"};
+    vector<string> v1 = {"10-8-2020","9:7:43","10.8.134.146","29579","emily.reto.com","174.244.179.200","443","tripadvisor.com"};
+    vector<string> v2 = {"10-8-2020","9:0:24","10.8.134.118","2668","edward.reto.com","144.238.150.63","993","outlook.com"};
+   
     regitros.push_back(v1);
     regitros.push_back(v2);
     addRegistro(regitros);
