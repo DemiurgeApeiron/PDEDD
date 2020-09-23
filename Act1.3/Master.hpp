@@ -11,7 +11,7 @@ using namespace std;
 template <class T>
 class Master{
 protected:
-    vector<vector <DataBase<T>*> > lista;
+    vector<vector <DataBase<T>> > lista;
     bool dayCond(vector<DataBase<T>*> &a, vector<DataBase<T>*> &b);
     bool dayBusquedaCond(vector<DataBase<T>*> &a, T &num);
     bool horaCond(vector<DataBase<T>*> &a, vector<DataBase<T>*> &b);
@@ -38,24 +38,32 @@ public:
 
 template <class T>
 Master<T>::~Master(){
-    for(size_t i = 0; i < lista.size();i++){
+    /*for(size_t i = 0; i < lista.size();i++){
         for(size_t j = 0; j < lista.size();j++){
             delete(lista[i][j]);
         }
-    }
+    }*/
 }
 
 template <class T>
 void Master<T>::addRegister(vector<T> &_lista){
-    vector<DataBase<T>*> v;
-    v.push_back(new Fecha(_lista[0]));
-    v.push_back(new Hora(_lista[1]));
-    v.push_back(new IP(_lista[2]));
-    v.push_back(new Puerto(_lista[3]));
-    v.push_back(new HostName(_lista[4]));
-    v.push_back(new IP(_lista[5]));
-    v.push_back(new Puerto(_lista[6]));
-    v.push_back(new HostName(_lista[7]));
+    vector<DataBase<T>> v;
+    cout << "Fecha->" <<endl;
+    v.push_back(Fecha(_lista[0]));
+    cout << "Hora->" <<endl;
+    v.push_back(Hora(_lista[1]));
+    cout << "Ip->" <<endl;
+    v.push_back(IP(_lista[2]));
+    cout << "Puerto->" <<endl;
+    v.push_back(Puerto(_lista[3]));
+    cout << "Host->" <<endl;
+    v.push_back(HostName(_lista[4]));
+    cout << "IP D->" <<endl;
+    v.push_back(IP(_lista[5]));
+    cout << "Puerto D->" <<endl;
+    v.push_back(Puerto(_lista[6]));
+    cout << "Host D->" <<endl;
+    v.push_back(HostName(_lista[7]));
 
     lista.push_back(v);
     
@@ -153,16 +161,16 @@ void Master<T>::Display(int resp){
         size = resp;
     }
     for(size_t i = 0; i < lista.size(); i++){
-        Fecha<T>* tempFecha = dynamic_cast<Fecha<T>*>(lista[i][0]);
-        Hora<T>* tempHora = dynamic_cast<Hora<T>*>(lista[i][1]);
-        IP<T>* tempIP = dynamic_cast<IP<T>*>(lista[i][2]);
-        Puerto<T>* tempPuerto = dynamic_cast<Puerto<T>*>(lista[i][3]);
-        HostName<T>* tempHost = dynamic_cast<HostName<T>*>(lista[i][4]);
-        IP<T>* tempIPD = dynamic_cast<IP<T>*>(lista[i][5]);
-        Puerto<T>* tempPuertoD = dynamic_cast<Puerto<T>*>(lista[i][6]);
-        HostName<T>* tempHostD = dynamic_cast<HostName<T>*>(lista[i][7]);
+        Fecha<T> tempFecha = dynamic_cast<Fecha<T>&>(lista[i][0]);
+        Hora<T> tempHora = dynamic_cast<Hora<T>&>(lista[i][1]);
+        IP<T> tempIP = dynamic_cast<IP<T>&>(lista[i][2]);
+        Puerto<T> tempPuerto = dynamic_cast<Puerto<T>&>(lista[i][3]);
+        HostName<T> tempHost = dynamic_cast<HostName<T>&>(lista[i][4]);
+        IP<T> tempIPD = dynamic_cast<IP<T>&>(lista[i][5]);
+        Puerto<T> tempPuertoD = dynamic_cast<Puerto<T>&>(lista[i][6]);
+        HostName<T> tempHostD = dynamic_cast<HostName<T>&>(lista[i][7]);
         
-        cout<< tempFecha->display() << ", " << tempHora->display() << ", " << tempIP->display() << ", " << "tempPuerto->display()" << ", " << tempHost->display() << ", " << tempIPD->display() << ", " << "tempPuertoD->display()" << ", " << tempHostD->display() <<endl;   
+        cout<< tempFecha.display() << ", " << tempHora.display() << ", " << tempIP.display() << ", " << "tempPuerto->display()" << ", " << tempHost.display() << ", " << tempIPD.display() << ", " << "tempPuertoD->display()" << ", " << tempHostD.display() <<endl;   
     }
 }
 
