@@ -88,9 +88,9 @@ int Master<T>::partition(vector<vector<DataBase<T>*>> &list, int low, int high){
     int i = low-1;
 
     for (int j = low; j < high; j++){
-        Fecha<T>* tempFechaA = dynamic_cast<Fecha<T>*>(lista[j][0]);
-        Fecha<T>* tempFechaB = dynamic_cast<Fecha<T>*>(pivote[0]);
-        if((tempFechaA->getAño() == tempFechaB->getAño()) && (tempFechaA->getMes() == tempFechaB->getMes()) && (tempFechaA->getDia() == tempFechaB->getDia())){
+        Fecha<T> tempFechaA = dynamic_cast<Fecha<T>&>(lista[j][0]);
+        Fecha<T> tempFechaB = dynamic_cast<Fecha<T>&>(pivote[0]);
+        if((tempFechaA.getAño() == tempFechaB.getAño()) && (tempFechaA.getMes() == tempFechaB.getMes()) && (tempFechaA.getDia() == tempFechaB.getDia())){
             if(horaCond(lista[j],pivote)){
                 i++;
                 vector<DataBase<T>*> temp = list[i];
@@ -114,16 +114,16 @@ int Master<T>::partition(vector<vector<DataBase<T>*>> &list, int low, int high){
 }
 
 template <class T>
-bool Master<T>::dayCond(vector<DataBase<T>*> &a, vector<DataBase<T>*> &b){
-    Fecha<T>* tempFechaA = dynamic_cast<Fecha<T>*>(a[0]);
-    Fecha<T>* tempFechaB = dynamic_cast<Fecha<T>*>(b[0]);
-    if(tempFechaA->getAño() < tempFechaB->getAño()){
+bool Master<T>::dayCond(vector<DataBase<T>> &a, vector<DataBase<T>> &b){
+    Fecha<T> tempFechaA = dynamic_cast<Fecha<T>&>(a[0]);
+    Fecha<T> tempFechaB = dynamic_cast<Fecha<T>&>(b[0]);
+    if(tempFechaA.getAño() < tempFechaB.getAño()){
         return(true);
     }
-    else if((tempFechaA->getAño() == tempFechaB->getAño()) && (tempFechaA->getMes() < tempFechaB->getMes())){
+    else if((tempFechaA.getAño() == tempFechaB->getAño()) && (tempFechaA.getMes() < tempFechaB.getMes())){
         return(true);
     }
-    else if((tempFechaA->getAño() == tempFechaB->getAño()) && (tempFechaA->getMes() == tempFechaB->getMes()) && (tempFechaA->getDia() < tempFechaB->getDia())){
+    else if((tempFechaA.getAño() == tempFechaB->getAño()) && (tempFechaA.getMes() == tempFechaB.getMes()) && (tempFechaA.getDia() < tempFechaB.getDia())){
         return(true);
     }
     else
@@ -134,15 +134,15 @@ bool Master<T>::dayCond(vector<DataBase<T>*> &a, vector<DataBase<T>*> &b){
 
 template <class T>
 bool Master<T>::horaCond(vector<DataBase<T>*> &a, vector<DataBase<T>*> &b){
-    Hora<T>* tempHoraA = dynamic_cast<Hora<T>*>(a[1]);
-    Hora<T>* tempHoraB = dynamic_cast<Hora<T>*>(b[1]);
-    if(tempHoraA->getHora() < tempHoraB->getHora()){
+    Hora<T> tempHoraA = dynamic_cast<Hora<T>&>(a[1]);
+    Hora<T> tempHoraB = dynamic_cast<Hora<T>&>(b[1]);
+    if(tempHoraA.getHora() < tempHoraB.getHora()){
         return(true);
     }
-    else if((tempHoraA->getHora() == tempHoraB->getHora()) && (tempHoraA->getMin() < tempHoraB->getMin())){
+    else if((tempHoraA.getHora() == tempHoraB.getHora()) && (tempHoraA.getMin() < tempHoraB.getMin())){
         return(true);
     }
-    else if((tempHoraA->getHora() == tempHoraB->getHora()) && (tempHoraA->getMin() == tempHoraB->getMin()) && (tempHoraA->getSec() < tempHoraB->getSec())){
+    else if((tempHoraA.getHora() == tempHoraB.getHora()) && (tempHoraA.getMin() == tempHoraB.getMin()) && (tempHoraA.getSec() < tempHoraB.getSec())){
         return(true);
     }
     else
@@ -175,17 +175,17 @@ void Master<T>::Display(int resp){
 }
 
 template <class T>
-void Master<T>::printVector(vector<DataBase<T>*> list){
-    Fecha<T>* tempFecha = dynamic_cast<Fecha<T>*>(list[0]);
-    Hora<T>* tempHora = dynamic_cast<Hora<T>*>(list[1]);
-    IP<T>* tempIP = dynamic_cast<IP<T>*>(list[2]);
-    Puerto<T>* tempPuerto = dynamic_cast<Puerto<T>*>(list[3]);
-    HostName<T>* tempHost = dynamic_cast<HostName<T>*>(list[4]);
-    IP<T>* tempIPD = dynamic_cast<IP<T>*>(list[5]);
-    Puerto<T>* tempPuertoD = dynamic_cast<Puerto<T>*>(list[6]);
-    HostName<T>* tempHostD = dynamic_cast<HostName<T>*>(list[7]);
+void Master<T>::printVector(vector<DataBase<T>> list){
+    Fecha<T> tempFecha = dynamic_cast<Fecha<T>&>(list[0]);
+    Hora<T> tempHora = dynamic_cast<Hora<T>&>(list[1]);
+    IP<T> tempIP = dynamic_cast<IP<T>&>(list[2]);
+    Puerto<T> tempPuerto = dynamic_cast<Puerto<T>&>(list[3]);
+    HostName<T> tempHost = dynamic_cast<HostName<T>&>(list[4]);
+    IP<T> tempIPD = dynamic_cast<IP<T>&>(list[5]);
+    Puerto<T> tempPuertoD = dynamic_cast<Puerto<T>&>(list[6]);
+    HostName<T> tempHostD = dynamic_cast<HostName<T>&>(list[7]);
         
-    cout<< tempFecha->display() << ", " << tempHora->display() << ", " << tempIP->display() << ", " << "tempPuerto->display()" << ", " << tempHost->display() << ", " << tempIPD->display() << ", " << "tempPuertoD->display()" << ", " << tempHostD->display() <<endl;
+    cout<< tempFecha.display() << ", " << tempHora.display() << ", " << tempIP.display() << ", " << "tempPuerto->display()" << ", " << tempHost.display() << ", " << tempIPD.display() << ", " << "tempPuertoD->display()" << ", " << tempHostD.display() <<endl;
 }
 template <class T>
 int Master<T>:: busqueda(bool (Master<T>::*compare)(vector<DataBase<T>*> &a, T &num), T var){
