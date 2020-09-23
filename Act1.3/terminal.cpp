@@ -56,8 +56,8 @@ Master<T> addRegistro(vector<vector<T>> &_registros, Master<T> _program){
     cout<<"h1"<<endl;
     //_program.Display(0);
     //_program.sortByTime();
-    _program.Display(0);
-    cout<<endl;
+    //_program.Display(0);
+    //cout<<endl;
     //_program.busquedaDia("10");
     //return(_program);
 }
