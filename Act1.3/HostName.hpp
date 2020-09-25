@@ -12,6 +12,7 @@ protected:
     T fullName;
     T name;
 public:
+    HostName()=default;
     HostName(T &HostName);
     ~HostName();
     T display(){return fullName;}
@@ -31,7 +32,15 @@ HostName<T>::HostName(T &_HostName){
         { 
             valores.push_back(intermediate); 
         }
-        this-> name = valores[0];   
+        if(valores.size() > 2){
+            this-> name = valores[0]; 
+        }
+        else{
+            this->name = "unknown";
+            this->fullName = "unknown";
+        }
+        
+          
     }
 }
 template <class T>

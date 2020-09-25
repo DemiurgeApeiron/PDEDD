@@ -10,15 +10,16 @@ template <class T>
 class Fecha : public DataBase<T>{
 protected:
     T fullFecha;
-    int año;
+    int year;
     int mes;
     int dia;
 public:
+    Fecha()=default;
     Fecha(T Fecha);
     ~Fecha();
     int getDia(){return dia;}
     int getMes(){return mes;}
-    int getAño(){return año;}
+    int getYear(){return year;}
     T display(){return fullFecha;}
 };
 template <class T>
@@ -35,7 +36,7 @@ Fecha<T>::Fecha(T Fecha){
 
     this-> dia = stoi(valores[0]);
     this-> mes = stoi(valores[1]);
-    this-> año = stoi(valores[2]);
+    this-> year = stoi(valores[2]);
 }
 template <class T>
 Fecha<T>::~Fecha(){
