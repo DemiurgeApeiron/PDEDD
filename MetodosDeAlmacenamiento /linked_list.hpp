@@ -1,3 +1,8 @@
+/* 
+clase para crear Linked Lists
+javier alejandro martinez noe
+30/9/20
+*/
 #ifndef _LINKED_LIST_HPP
 #define _LINKED_LIST_HPP
 
@@ -53,6 +58,8 @@ public:
     void DeleteList();
     void RemoveDuplicates();
     void Reverse();
+    void Sort();
+    void SortedInsert (Node<T> * newNode);
 
 };
 template <class T>
@@ -176,6 +183,11 @@ int LinkedList<T>::get_nth(int index, T &item){
 };
 template <class T>
 int LinkedList<T>:: Count(T searchFor){
+    /*
+    Esta funcion cuenta el número de veces que ocurre un elemento dado en la lista. 
+    Esta funcion tine una complejidad temporal de O(n) porque recorre toda la lista para 
+    poder hacer las comparaciones.
+    */
     if (is_empty()){
         return -1;
     }  
@@ -195,6 +207,12 @@ int LinkedList<T>:: Count(T searchFor){
 
 template <class T>
 void LinkedList<T>::DeleteList(){
+    /*
+    Esta funcion borra todos los elemntos de la lista y redefine los apuntadores 
+    que la lista se entienda como vacia. 
+    Esta funcion tine una complejidad temporal de O(n) porque recorre toda la lista para 
+    poder borrar y redefinir los apuntadores.
+    */
     if (not is_empty()){
     Node<T> *trash;
     Node<T> *ptr = head;
@@ -211,6 +229,13 @@ void LinkedList<T>::DeleteList(){
 
 template <class T>
 void LinkedList<T>::RemoveDuplicates(){
+    /*
+    Esta funcion remueve los elemetos duplicados dejando el primero de una lista. 
+    
+    Esta funcion tine una complejidad temporal de O(n^2) porque recorre toda la lista al cuadrado para 
+    poder hacer las comparaciones y borrar los elemtos repetidos. Tiene una funcionalidad similar a 
+    seleccion sort.
+    */
     if (not is_empty()){
         int puntList[length()];
         Node<T> *ptr = head;
@@ -218,7 +243,7 @@ void LinkedList<T>::RemoveDuplicates(){
         Node<T> *pre = ptr;
         int i = 0;
         puntList[0] = ptr->get_val();
-        while (ptr->get_next() != NULL){
+        while (ptr != NULL && ptr->get_next() != NULL){
             //cout <<"ciclo " << i <<endl;
             pActual = ptr->get_next();
             pre = ptr;
@@ -237,19 +262,23 @@ void LinkedList<T>::RemoveDuplicates(){
                     //cout << "No borrado" <<endl;
                 }
             }
-        //cout << puntList[i] << " ------ "<<pActual->get_val()<<endl;  
-        if(puntList[i] == pActual->get_val()){
-            pre->set_next(pActual->get_next());
-            delete(pActual);
-            pActual = pre->get_next();
-        }
-        else{
-            pre = pActual;
-            pActual = pActual->get_next();
-        }
-        i++;
-        ptr = ptr->get_next();
-        puntList[i] = ptr->get_val();
+            //cout << puntList[i] << " ------ "<<pActual->get_val()<<endl;
+            //cout << "end Secuence" <<endl;  
+            if(puntList[i] == pActual->get_val()){
+                pre->set_next(pActual->get_next());
+                delete(pActual);
+                pActual = pre->get_next();
+            }
+            else{
+                pre = pActual;
+                pActual = pActual->get_next();
+                i++;
+            }
+
+            ptr = ptr->get_next();
+            if(ptr != NULL){
+                puntList[i] = ptr->get_val();
+            }
         } 
     }       
 }
@@ -257,6 +286,12 @@ void LinkedList<T>::RemoveDuplicates(){
 
 template <class T>
 void LinkedList<T>::Reverse(){
+    /*
+    Esta funcion invierte el orden de los elementos en la lista. 
+    
+    Esta funcion tine una complejidad temporal de O(n) porque recorre toda la lista para 
+    poder hacer el reordenamiento.
+    */
     if (not is_empty()){
         int index[length()-1];
         Node<T> *ptr = head;
@@ -268,6 +303,75 @@ void LinkedList<T>::Reverse(){
         for (int i = 0; i < length(); i++){
             ptr->set_val(index[i]);
             ptr = ptr->get_next();
+        }
+    }
+}
+
+template <class T>
+void LinkedList<T>:: Sort(){
+    /*
+    Esta funcion ordena los elemento en la lista de manera acendente. 
+    
+    Esta funcion tine una complejidad temporal de O(n^2), porque recorre toda la lista al cuandrado, 
+    ocupa el algoritmo de Bubble Sort para ordenar e implementa una salida para que si en un ciclo 
+    no se ha ordenado la lista se detenga. Sin embargo en el peor de los casos sige siendo O(n^2).
+    */
+    if(not is_empty()){
+        Node<T> *ptr = head;
+        for(size_t i = 0; i < length(); i++){
+            bool noSwap = true;
+            while(ptr->get_next() != NULL){
+                if(ptr->get_val() > ptr->get_next()->get_val()){
+                    T temp = ptr->get_val();
+                    ptr->set_val(ptr->get_next()->get_val());
+                    ptr->get_next()->set_val(temp);
+                    noSwap = false;
+                }
+                ptr = ptr->get_next();
+            }
+            if(noSwap){
+                break;
+            }
+            ptr = head;
+        }
+    }
+}
+
+template <class T>
+void LinkedList<T>:: SortedInsert(Node<T> * newNode){
+    /*
+    Esta funcion llama a la funcion de ordenamiento e incerta un Nodo en su posicion 
+    respectiva deacuerdo a su valor. 
+    
+    Esta funcion tine una complejidad temporal de O(n), si se cuenta el ordenamiento como un 
+    prerequisito, ya que esta nadamas recorre la lista para incertar un Nodo en la posision respectiva. 
+    
+    Si se toma el ordenamiento como parte de la funcion, esta tiene una complejidad temporal de O(n^2),
+    ya la funcionalidad espesifica de la funcion se ve amalgamada con la del ordenamiento y solo se queda 
+    con la mayor complejidad O(n^2).
+    */
+    if(not is_empty()){
+        Sort();
+        Node<T> *ptr = head;
+        Node<T> *pre = NULL;
+        if(newNode->get_val() <= ptr->get_val()){
+            head = newNode;
+            newNode->set_next(ptr);
+        }
+        else{
+            while(ptr->get_next() != NULL && newNode->get_val() > ptr->get_val()){
+                pre = ptr;
+                ptr = ptr->get_next();
+            }
+            if(newNode->get_val() > ptr->get_val()){
+                newNode->set_next(NULL);
+                ptr->set_next(newNode); 
+            }
+            else{
+                newNode->set_next(ptr);
+                pre->set_next(newNode); 
+            }
+             
         }
     }
 }

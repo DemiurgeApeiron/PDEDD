@@ -1,3 +1,8 @@
+/* 
+programa para probar la clase Linked Lists
+javier alejandro martinez noe
+30/9/20
+*/
 #include "linked_list.hpp"
 using namespace std;
 int main()
@@ -18,18 +23,21 @@ int main()
     int item;
     list.get_nth(5, item);
     list.print();
+    list.append(100);
     //std::cout << item << std::endl;
+    list.print();
     cout << list.Count(4) <<endl;
     list.RemoveDuplicates();
     list.print();
     list.Reverse();
     list.print();
-
+    list.Sort();
+    list.print();
+    Node<int> *node = new Node<int>(50, NULL);
+    list.SortedInsert(node);
+    list.print();
 
     list.DeleteList();
     cout << list.length() <<endl;
-
-
-
     return 0;
 }
