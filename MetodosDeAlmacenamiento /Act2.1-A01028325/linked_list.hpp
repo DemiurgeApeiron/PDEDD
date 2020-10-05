@@ -372,7 +372,7 @@ void LinkedList<T>:: SortedInsert(Node<T> * newNode){
     }
     else{
         head = newNode;
-        newNode->set_next(NULL)
+        newNode->set_next(NULL);
     }
 }
 #endif
