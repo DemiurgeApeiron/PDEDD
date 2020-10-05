@@ -58,7 +58,7 @@ vector<T> MergeSort<T>::mergeSort(vector<T> &listaToMege, int primer, int ultimo
     else{
         vector<T> resp;
         if(primer-ultimo !=0){
-            //cout <<"a"<<endl;
+            cout <<"a"<<endl;
             resp = vector<T>(listaToMege.begin() + primer, listaToMege.end()- (listaToMege.size()-ultimo)); 
         }
         else if(primer == 0 && ultimo == 0){
@@ -69,9 +69,9 @@ vector<T> MergeSort<T>::mergeSort(vector<T> &listaToMege, int primer, int ultimo
             //cout <<"c"<<endl;
             resp = vector<T>(listaToMege.begin() + primer, listaToMege.end()- (listaToMege.size()-ultimo-1));
         }
-        //cout << "primer: " << primer << " ultimo: " << ultimo << endl;
-        //cout <<"resp: ";
-        /*for(size_t j = 0; j<resp.size();j++){
+        /*cout << "primer: " << primer << " ultimo: " << ultimo << endl;
+        cout <<"resp: ";
+        for(size_t j = 0; j<resp.size();j++){
             cout << resp[j]<< ", " ;
         }
         cout<<endl;*/
@@ -80,7 +80,7 @@ vector<T> MergeSort<T>::mergeSort(vector<T> &listaToMege, int primer, int ultimo
 }
 template <class T>
 vector<T> MergeSort<T>::merge(vector<T> &l, vector<T> &r){
-    int n = l.size()+r.size() -1;
+    int n = l.size()+r.size();
 
     int i =0, j = 0;
     vector<T> result;
@@ -88,26 +88,18 @@ vector<T> MergeSort<T>::merge(vector<T> &l, vector<T> &r){
     //cout <<"size: "<< n<<endl;
     int lastMove;
     for(size_t p = 0; p < n;p++){
-        //cout << "p: " << p << " li: "<< l[i] << " rj: "<< r[j] << " i: " << i << " j: " << j << endl;
-        if((l[i] < r[j] || j > r.size()) && i <= l.size()){
+        //cout << "p: " << p <<" de " << n << " li: "<< l[i] << " rj: "<< r[j] << " i: " << i << " j: " << j << " lsize: " << l.size() << " rsize: " << r.size() <<endl;
+        if(((l[i] <= r[j]) || (j >= r.size())) && i < l.size()){
             result[p] = l[i];
             i++;
             lastMove = 1;
         }
-        else if(l[i] > r[j] || i > l.size()){
+        else if(l[i] > r[j] || i >= l.size()){
             result[p] = r[j];
             j++;    
             lastMove = 0;
         }
     }
-
-    if(lastMove == 1){
-        result.push_back(r[r.size()-1]);
-    }
-    else{
-        result.push_back(l[l.size()-1]);
-    }
-    
     /*cout <<"m: ";
     for(size_t j = 0; j<result.size();j++){
         cout << result[j]<< ", " ;

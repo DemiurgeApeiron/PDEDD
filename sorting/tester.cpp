@@ -7,7 +7,7 @@
 #include "SelectionSort.hpp"
 #include "BubbleSort.hpp"
 #include "IncertionSort.hpp"
-#include "MergeSort.hpp"
+#include "MergeSortBeta.hpp"
 #include "QuickSort.hpp"
 using namespace std;
 template<class T>
