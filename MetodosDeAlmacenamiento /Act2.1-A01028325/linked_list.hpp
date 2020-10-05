@@ -288,18 +288,16 @@ void LinkedList<T>::Reverse(){
     poder hacer el reordenamiento.
     */
     if (not is_empty()){
-        int space = length();
-        int index[space-1];
         Node<T> *ptr = head;
-        for (int i = 0; i < space; i++){
-            index[space-1-i] = ptr->get_val();
-            ptr = ptr->get_next();
+        Node<T> *pre = NULL;
+        while (ptr != NULL)
+        {
+            Node<T> *aux = ptr->get_next(); 
+            ptr->set_next(pre);
+            pre = ptr;
+            ptr = aux;
         }
-        ptr = head;
-        for (int i = 0; i < space; i++){
-            ptr->set_val(index[i]);
-            ptr = ptr->get_next();
-        }
+        head = pre;
     }
 }
 
