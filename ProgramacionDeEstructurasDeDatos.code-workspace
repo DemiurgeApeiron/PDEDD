@@ -82,7 +82,10 @@
 			"variant": "cpp",
 			"__locale": "cpp",
 			"__string": "cpp",
-			"__node_handle": "cpp"
+			"__node_handle": "cpp",
+			"queue": "cpp",
+			"stack": "cpp",
+			"__split_buffer": "cpp"
 		}
 	}
 }

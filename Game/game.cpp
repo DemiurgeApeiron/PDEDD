@@ -6,9 +6,14 @@
 using namespace std;
 
 int main(){
-    cout << "enter the list values: " <<endl;
-    string line, val;
-    getline(cin, line);
+    string line;
+    srand(time(NULL));
+    for(size_t i = 0; i < 100000; i++){
+        int numRand = (int)rand();
+        line += to_string(numRand % (10)) + " ";
+    }
+    line = line.substr(0, line.size()-1);
+    string val;
     stringstream ss(line);
     queue<int> a;
     stack<int> b;
@@ -34,11 +39,11 @@ int main(){
         }
     }
     cout << endl;
-    for (size_t i = 0; i < output.size(); i++)
+    /*for (size_t i = 0; i < output.size(); i++)
     {
         cout << output[i] << ", ";
     }
-    cout << endl;
+    cout << endl;*/
     
 
     

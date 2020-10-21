@@ -1,0 +1,27 @@
+Let S = {} (an empty global set of integers)
+
+procedure indent(level)
+for i in [0..level) 
+  if i \in S print "| "
+  else print "  "
+
+procedure tee(level)
+indent(level)
+print("|-")
+S = S + { level }
+
+procedure ell(level)
+indent(level)
+print("`-")
+S = S - { level }
+
+procedure print(node, level)
+if node is null
+  print("[null]" with newline) // only prints when 1 child is missing
+else
+  print(node label with newline)
+  if node has any children
+    tee(level)
+    print(node.left, level + 1)
+    ell(level)
+    print(node.right, level + 1)
