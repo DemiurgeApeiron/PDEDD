@@ -13,7 +13,12 @@ int main() {
     btree.insertNodeRecursive(16);
     btree.insertNodeRecursive(19);
     btree.insertNodeRecursive(25);
+    btree.printV1();
     btree.print_preorder();
+    cout << btree.getProfundidad(16) << endl;
+    btree.longPath();
+    cout << endl;
+    btree.getAllDecendats(9);
     btree.printV2();
 
     return 0;

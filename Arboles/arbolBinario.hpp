@@ -1,6 +1,7 @@
 #ifndef _BST_HPP
 #define _BST_HPP
 #include <iostream>
+#include <vector>
 using namespace std;
 
 template <class T>
@@ -83,6 +84,7 @@ class BinarySearchTree {
         }
         return node;
     }
+
     bool insertNodeRecursive(T val) {
         root = insertNodeR(root, val);
         return true;
@@ -149,10 +151,10 @@ class BinarySearchTree {
     };
 
     int heightR(int h, BTreeNode<T> *node) {
-        h += 1;
         if (node == NULL) {
             return h;
         } else {
+            h += 1;
             int hIzquierda = heightR(h, node->get_left());
             int hDerecha = heightR(h, node->get_right());
             return hIzquierda > hDerecha ? hIzquierda : hDerecha;
@@ -171,6 +173,60 @@ class BinarySearchTree {
         return h;
     }
 
+    int getProfundidad(T val) {
+        BTreeNode<T> *ptr = find(val);
+        int prof = getSHeight(root) - getSHeight(ptr);
+        return prof;
+    }
+
+    void yellowPath(BTreeNode<T> *node) {
+        cout << node->get_val() << ", ";
+        int left;
+        int right;
+        if (node->get_left() != NULL) {
+            left = getSHeight(node->get_left());
+        } else {
+            left = 0;
+        }
+        if (node->get_right() != NULL) {
+            right = getSHeight(node->get_right());
+        } else {
+            right = 0;
+        }
+        if (node->get_left() != NULL || node->get_right() != NULL) {
+            getSHeight(node->get_left()) > getSHeight(node->get_right()) ? yellowPath(node->get_left()) : yellowPath(node->get_right());
+        }
+        /*if (getSHeight(node->get_left()) > getSHeight(node->get_right())) {
+            yellowPath(node->get_left())
+        } else {
+            
+        }*/
+    }
+
+    void myChildren(BTreeNode<T> *node) {
+        if (node->get_left() != NULL) {
+            cout << node->get_left()->get_val() << ", ";
+            myChildren(node->get_left());
+        }
+        if (node->get_right() != NULL) {
+            cout << node->get_right()->get_val() << ", ";
+            myChildren(node->get_right());
+        }
+    }
+
+    int getLevel(T val) {
+        return getProfundidad(val);
+    }
+
+    void getAllDecendats(T val) {
+        BTreeNode<T> *ptr = find(val);
+        myChildren(ptr);
+    }
+
+    void longPath() {
+        yellowPath(root);
+    }
+
     void print_preorder() {
         print_preorder(root);
         cout << endl;
@@ -181,11 +237,44 @@ class BinarySearchTree {
             cout << " ";
         }
     }
+
     void printLines() {
         cout << "--";
     }
 
-    void v2Print(int h, BTreeNode<T> *node) {
+    void printSpacesV2(int factor) {
+        for (size_t i = 0; i < factor; i++) {
+            cout << " ";
+        }
+    }
+    void printLinesV2(int factor) {
+        for (size_t i = 0; i < factor; i++) {
+            cout << "-";
+        }
+    }
+
+    vector<vector<string>> getVals(BTreeNode<T> *node, vector<vector<string>> &vals, string desicion) {
+        if (node != NULL) {
+            int h = getProfundidad(node->get_val());
+            string left = "";
+            string right = "";
+            if (node->get_left() != NULL) {
+                left = to_string(node->get_left()->get_val());
+            }
+            if (node->get_right() != NULL) {
+                right = to_string(node->get_right()->get_val());
+            }
+            vector temp{desicion, to_string(h), left, right};
+            vals.insert(vals.begin() + h, temp);
+
+            getVals(node->get_left(), vals, "L");
+            getVals(node->get_right(), vals, "R");
+        }
+
+        return (vals);
+    }
+
+    void v1Print(int h, BTreeNode<T> *node) {
         if (node != NULL && node->get_left() != NULL) {
             int hMe = h - getSHeight(node);
             for (size_t i = 0; i < hMe + 1; i++) {
@@ -197,7 +286,7 @@ class BinarySearchTree {
             cout << "├";
             printLines();
             cout << node->get_left()->get_val() << endl;
-            v2Print(h, node->get_left());
+            v1Print(h, node->get_left());
             if (node->get_right() != NULL) {
                 for (size_t i = 0; i <= hMe; i++) {
                     //cout << i << " " << hMe;
@@ -213,7 +302,7 @@ class BinarySearchTree {
                 //cout << endl;
             }
 
-            v2Print(h, node->get_right());
+            v1Print(h, node->get_right());
 
         } else if (node != NULL && node->get_right() != NULL) {
             int hMe = h - getSHeight(node);
@@ -232,18 +321,111 @@ class BinarySearchTree {
                 //cout << endl;
             }
 
-            v2Print(h, node->get_right());
+            v1Print(h, node->get_right());
         }
     }
 
-    void printV2() {
+    void printV1() {
         int h = getHeight();
         cout << "└";
         cout << "-";
         cout << "-";
         cout << root->get_val() << endl;
 
-        v2Print(h, root);
+        v1Print(h, root);
+    }
+
+    void printArco(int factL, int factEsp, int numOfArcos) {
+        if (numOfArcos == 1) {
+            printSpacesV2(3);
+        }
+        for (size_t i = 0; i < numOfArcos; i++) {
+            if (i == 0) {
+                printSpacesV2(factEsp);
+            }
+            if (i % 2 != 0) {
+                printSpacesV2(factEsp);
+            }
+
+            cout << "┌";
+            printLinesV2(factL);
+            cout << "┴";
+            printLinesV2(factL);
+            cout << "┐";
+            printSpacesV2(getHeight());
+        }
+    }
+
+    void printArcoVals(int factL, int factEsp, int numOfArcoVals, vector<vector<string>> vals, int h) {
+        vector<vector<string>> ImportantVals;
+        string searchingSide = "L";
+        if (numOfArcoVals == 1) {
+            printSpacesV2(3);
+        }
+        for (size_t i = 0; i < vals.size(); i++) {
+            if (vals[i][1] == to_string(h)) {
+                ImportantVals.push_back(vals[i]);
+            }
+        }
+        for (size_t i = 0; i < numOfArcoVals; i++) {
+            int index = 0;
+            for (size_t j = 0; j < ImportantVals.size(); j++) {
+                if (ImportantVals[j][0] == searchingSide) {
+                    index = j;
+                }
+            }
+            if (ImportantVals[index][0] == searchingSide) {
+                printSpacesV2(factEsp);
+                cout << ImportantVals[index][2];
+                printSpacesV2(factEsp * 2);
+                cout << ImportantVals[index][3];
+            } else {
+                printSpacesV2(factEsp);
+                cout << "  ";
+                printSpacesV2(factEsp * 2);
+                cout << "  ";
+            }
+            if (i % 2 == 0) {
+                printSpacesV2(numOfArcoVals + 3);
+            }
+
+            if (!ImportantVals.empty()) {
+                ImportantVals.erase(ImportantVals.begin() + index);
+            }
+            if (searchingSide == "L") {
+                searchingSide = "R";
+            } else {
+                searchingSide = "L";
+            }
+        }
+    }
+
+    void printV2() {
+        int h = getSHeight(root);
+        int deep = getProfundidad(root->get_val());
+        int factorEsp = h * h;
+        int factorLinea = h * h;
+        vector<vector<string>> vals;
+
+        if (h > 1) {
+            cout << endl;
+            printSpacesV2(factorEsp * 2 + 3);
+            cout << root->get_val() << endl;
+
+            getVals(root, vals, "L");
+
+            int factorDeCresimiento = 1;
+
+            for (size_t i = 1; i < h; i++) {
+                printArco(factorEsp, factorLinea, factorDeCresimiento);
+                cout << endl;
+                printArcoVals(factorEsp, factorLinea, factorDeCresimiento, vals, i - 1);
+                cout << endl;
+                factorEsp = (h - i) * (h - i);
+                factorLinea = (h - i) * (h - i);
+                factorDeCresimiento *= 2;
+            }
+        }
     }
 };
 
